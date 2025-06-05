@@ -1,0 +1,71 @@
+ public ArrayList<ArrayList<Integer>> nQueen(int n) {
+        char board[][]=new char[n][n];
+        ArrayList<ArrayList<Integer>> result=new ArrayList<>();
+        for(int i=0; i<n; i++)
+        {
+           Arrays.fill(board[i],'.'); 
+        }
+        nqueenhelper(0,result,board);
+        return result;
+      
+    }
+    
+    public void nqueenhelper(int row,ArrayList<ArrayList<Integer>> result,
+    char board[][])
+    {
+        if(row==board.length)
+        {
+            result.add(construct(board));
+            return;
+        }
+        for(int col=0; col<board.length; col++)
+        {
+            if(isSafe(row,col,board))
+            {
+                board[row][col]='Q';
+                nqueenhelper(row+1,result,board);
+                board[row][col]='.';
+            
+            }
+        }
+    }
+    
+    public ArrayList<Integer> construct(char[][] board) {
+        ArrayList<Integer> config = new ArrayList<>();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] == 'Q') {
+                    config.add(j + 1); // storing column position as 1-based index
+                }
+            }
+        }
+
+        return config;
+    }
+    
+    
+    public boolean  isSafe(int row,int col,char board[][])
+    {
+        int n=board.length;
+        for(int i=0; i<row; i++)
+        {
+            if(board[i][col]=='Q')
+            return false;
+        }
+        
+        for(int i=row,j=col; i>=0 && j>=0; i--,j--)
+        {
+            if(board[i][j]=='Q')
+            return false;
+        }
+        
+        for(int i=row,j=col; i>=0 && j<n; i--,j++)
+        {
+            if(board[i][j]=='Q')
+            return false;
+        }
+        
+        return true;
+    }
+    
